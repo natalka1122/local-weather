@@ -14,5 +14,4 @@ function showPosition(position) {
 $( document ).ready(function() {
     $("#secured").html(location.protocol);
     getLocation();
-    showPosition();
 });
