@@ -1,4 +1,3 @@
-var x = document.getElementById("location");
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -11,6 +10,8 @@ function showPosition(position) {
 }
 
 $( document ).ready(function() {
-    $("#secured").html(location.protocol);
-    getLocation();
+    var secured=location.protocol;
+    if (secured!="http"){
+        getLocation();
+    }
 });
