@@ -11,6 +11,7 @@ function showPosition(position) {
 
 $( document ).ready(function() {
     var secured=location.protocol;
+    $("#location").html("Detecting location")
     if (secured!="http"){
         getLocation();
     }
