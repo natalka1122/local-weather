@@ -9,18 +9,14 @@ var latitude;
 var longitude;
 
 function getHtml5Location() {
-    function error(err) {
-    };
     function success(position) {
         latitude=position.coords.latitude;
         longitude=position.coords.longitude;
-        showWeather();
+        showWeather(true);
     }
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(success,error);
-    } else {
-//        $(mainDiv).html("Geolocation is not supported by this browser");
-    }
+
+    if (navigator.geolocation)
+        navigator.geolocation.getCurrentPosition(success);
 }
 
 function getIpLocation() {
@@ -29,46 +25,42 @@ function getIpLocation() {
     $.getJSON(jsonQuery, function(json) {
         latitude=json.latitude;
         longitude=json.longitude;
-        showWeather();
-    });
-    
+        showWeather(true);
+    });    
 }
 
-
-function showPosition(position) {
-    var jsonQuery=proxyCors+"https://api.darksky.net/forecast/"+key+"/"+position.coords.latitude+","+position.coords.longitude+"?units=si";
-    $.getJSON(jsonQuery, function(json) {
-
-        var html = json.currently.summary+"\n"+json.currently.temperature;
-        $(mainDiv).html(html);
-    });
-}
-
-function showWeather(){
+function showWeather(wallpaper){
     var jsonQuery=proxyCors+"https://api.darksky.net/forecast/"+key+"/"+latitude+","+longitude+"?units="+units+"&lang="+language;
     $.getJSON(jsonQuery, function(json) {
-
         var html = json.currently.summary+"\n"+json.currently.temperature;
         $(mainDiv).html(html);
     });
-}
-$( document ).ready(function() {
-    getIpLocation();
-    var secured=location.protocol;
-    $(mainDiv).html("Detecting location")
-    if (secured!="http"){
-        getHtml5Location();
+    if (wallpaper){
+        //change wallpaper
     }
+}
+$(document).ready(function() {
+    getIpLocation();
+    getHtml5Location();
 
     $(btnUnits).click(function() {
-        alert( "Handler for btnUnits.click() called." );
+        var strUnits,strButton;
+        switch(units){
+            case "us":
+                strUnits="si";
+                strButton="°C";
+                break;
+            case "si": //if not "us" consider units == "si"
+            default:
+                strUnits="us";
+                strButton="°F";
+        }
+        units=strUnits;
+        $(btnUnits).html(strButton);
+        showWeather(false);
     });
     $(selLanguage).change(function() {
-        var str = "";
-        $( "select option:selected" ).each(function() {
-            str += $( this ).text() + " ";
-        });
-        alert( str );
-        alert( "Handler for selLanguage.click() called." );
+        language=$(selLanguage+" option:selected").val();
+        showWeather(false);
     });    
 });
