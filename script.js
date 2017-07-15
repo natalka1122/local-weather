@@ -1,6 +1,7 @@
 const mainDiv="#main";
 const btnUnits="#btnUnits";
-const selLanguage="#btnLanguage"
+const selLanguage="#btnLanguage";
+const background=".parent";
 const proxyCors="https://cors-anywhere.herokuapp.com/"
 var _0x203e=["\x38\x38\x64\x37\x39\x38\x64\x31\x32\x30\x64\x64\x36\x30\x30\x66\x38\x63\x38\x64\x34\x33\x34\x33\x35\x33\x63\x34\x33\x36\x36\x64"];const key=_0x203e[0];
 var units="si";
@@ -32,12 +33,16 @@ function getIpLocation() {
 function showWeather(wallpaper){
     var jsonQuery=proxyCors+"https://api.darksky.net/forecast/"+key+"/"+latitude+","+longitude+"?units="+units+"&lang="+language;
     $.getJSON(jsonQuery, function(json) {
-        var html = json.currently.summary+"\n"+json.currently.temperature;
+        var html="<img src=\"images/weather-icons/"+json.currently.icon+".png\">";
+        html+="<h2>"+Math.round(json.currently.temperature)+"° "+json.currently.summary+"</h2>";
+        html+="<h4>"+json.hourly.summary+"</h4>";
         $(mainDiv).html(html);
+        if (wallpaper){
+            //change wallpaper
+            $(background).css("background","url(images/weather-icons/"+json.currently.icon+".png) repeat center center fixed");
+            alert("wallpaper changed");
+        }
     });
-    if (wallpaper){
-        //change wallpaper
-    }
 }
 $(document).ready(function() {
     getIpLocation();
