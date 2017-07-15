@@ -14,3 +14,16 @@
     -o-background-size: cover;
     background-size: cover;  
 }
+#main {
+  width: 100%;
+  border: 30px solid #40c4c8;
+  padding: 20px;
+  -moz-border-image: url(images/border.png) 30 round round;
+  -webkit-border-image: url(images/border.png) 30 round round; 
+  -o-border-image: url(images/border.png) 30 round round;
+  border-image: url(images/border.png) 30 round round;
+}
+
+.neutral {
+  background: url(images/weatherBg.jpg);  
+}

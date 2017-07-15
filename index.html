@@ -10,11 +10,33 @@
 </head>
 <body>
     <div class="parent">
-        <div class="row"> <div class="col-12">
-            <div id="location">
-                checking protocol...
+        <div class="row">
+            <div class="col-12">
+                <div id="main" class="neutral">
+                    checking protocol...
+                </div>
             </div>
-        </div></div>
+        </div>
     </div>
+    <nav class="navbar navbar-toggleable navbar-light bg-faded fixed-bottom">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="https://darksky.net/poweredby/">Powered by DarkSky</a>
+        <div class="collapse navbar-collapse pull-xs-right" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+                <li>
+                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0 btn-outline-info" id="btnLanguage">
+                        <option value="en" selected>English</option>
+                        <option value="ru">Russian</option>
+                        <option value="fr">French</option>
+                    </select>
+                </li>
+                <li>
+                    <button class="btn btn-outline-info mr-sm-2" id="btnUnits">°C</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </body>
 </html>
