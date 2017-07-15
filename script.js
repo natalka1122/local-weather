@@ -8,24 +8,35 @@ var language="en";
 var latitude;
 var longitude;
 
-function getLocation() {
+function getHtml5Location() {
     function error(err) {
-        $(mainDiv).html(`ERROR(${err.code}): ${err.message}`);
     };
     function success(position) {
         latitude=position.coords.latitude;
         longitude=position.coords.longitude;
+        showWeather();
     }
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success,error);
     } else {
-        $(mainDiv).html("Geolocation is not supported by this browser");
+//        $(mainDiv).html("Geolocation is not supported by this browser");
     }
 }
+
+function getIpLocation() {
+    var jsonQuery=proxyCors+"http://freegeoip.net/json/";
+
+    $.getJSON(jsonQuery, function(json) {
+        latitude=json.latitude;
+        longitude=json.longitude;
+        showWeather();
+    });
+    
+}
+
+
 function showPosition(position) {
-    $(mainDiv).html("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude+" key=");
     var jsonQuery=proxyCors+"https://api.darksky.net/forecast/"+key+"/"+position.coords.latitude+","+position.coords.longitude+"?units=si";
-    $(mainDiv).html(jsonQuery);
     $.getJSON(jsonQuery, function(json) {
 
         var html = json.currently.summary+"\n"+json.currently.temperature;
@@ -35,7 +46,6 @@ function showPosition(position) {
 
 function showWeather(){
     var jsonQuery=proxyCors+"https://api.darksky.net/forecast/"+key+"/"+latitude+","+longitude+"?units="+units+"&lang="+language;
-    $(mainDiv).html(jsonQuery);
     $.getJSON(jsonQuery, function(json) {
 
         var html = json.currently.summary+"\n"+json.currently.temperature;
@@ -43,17 +53,22 @@ function showWeather(){
     });
 }
 $( document ).ready(function() {
+    getIpLocation();
     var secured=location.protocol;
     $(mainDiv).html("Detecting location")
     if (secured!="http"){
-        getLocation();
+        getHtml5Location();
     }
-    showWeather();
 
     $(btnUnits).click(function() {
         alert( "Handler for btnUnits.click() called." );
     });
-    $(selLanguage).click(function() {
+    $(selLanguage).change(function() {
+        var str = "";
+        $( "select option:selected" ).each(function() {
+            str += $( this ).text() + " ";
+        });
+        alert( str );
         alert( "Handler for selLanguage.click() called." );
     });    
 });
